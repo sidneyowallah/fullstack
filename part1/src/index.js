@@ -10,22 +10,29 @@ const anecdotes = [
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
-
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
 
 const App = (props) => {
 
     const [selected, setSelected] = useState(0)
+    const [votes, setVotes] = useState(new Array(6).fill(0))
 
-    const setToSelected = (selected) => {
+    const setToSelected = () => {
         let randomNum = Math.floor(Math.random() * 6);
         setSelected(randomNum)
     }
 
+    const setTheVotes = () => {
+        const copy = [...votes]
+        copy[selected] += 1
+        setVotes(copy)
+    }
+
     return (
         <div>
-            <div>{props.anecdotes[selected]}</div>
+            <div>{props.anecdotes[selected]}<br />has {votes[selected]} votes</div>
+            <Button onClick={setTheVotes} text="vote" />
             <Button onClick={() => setToSelected(selected)} text="next anecdote" />
         </div>
     )
